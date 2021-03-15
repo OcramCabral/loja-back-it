@@ -1,7 +1,7 @@
 package com.dbserver.lojaback;
 
+
 import com.dbserver.lojaback.models.Produto;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
