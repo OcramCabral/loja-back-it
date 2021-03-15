@@ -1,7 +1,4 @@
-Produtos " " e isso é valido?
-Posso cadastrar produto com quantidade igual ou menor que zero? Qual a quantidade maxima?
-
-
+Cenários Levantados para realização dos testes
 
 --------------------------------------------------- CREATE ------------------------------------------------------------
 
