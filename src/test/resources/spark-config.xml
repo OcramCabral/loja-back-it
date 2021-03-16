@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE extentreports>
+<extentreports>
+    <configuration>
+        <theme>DARK</theme>
+        <encoding>UTF-8</encoding>
+        <protocol>HTTPS</protocol>
+        <timelineEnabled>true</timelineEnabled>
+        <enableOfflineMode>true</enableOfflineMode>
+        <documentTitle>Relatório</documentTitle>
+        <reportName>RELATÓRIO</reportName>
+        <timeStampFormat>dd/MM/yyyy HH:mm:ss</timeStampFormat>
+        <js>
+            <![CDATA[
+            ]]>
+        </js>
+        <css>
+            <![CDATA[
+            ]]>
+        </css>
+    </configuration>
+</extentreports>

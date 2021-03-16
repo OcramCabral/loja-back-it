@@ -1,38 +1,71 @@
 package com.dbserver.lojaback;
 
+import com.dbserver.lojaback.models.builder.Produto;
 import io.restassured.http.ContentType;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.http.HttpStatus;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.testng.annotations.Test;
-
-import java.math.BigDecimal;
 
 import static io.restassured.RestAssured.given;
 
 public class ProdutoPutTest extends BaseTest{
+    private Integer id;
 
     @Test
-    public void deveria_atualizar_informacoes() throws JSONException {
-        JSONObject request = new JSONObject();
-        request.put("descricao", "Moto X");
-        request.put("id", 1);
-        request.put("nome", "Celular");
-        request.put("precoUnitario", 2024);
-        request.put("quantidade", 10);
+    public void deveriaAtualizarInformacoes() {
 
-        given().contentType(ContentType.JSON).body(request.toString()).when().log().all().put("/produto").then().log().all().assertThat().statusCode(HttpStatus.SC_OK);
+        Produto produto = Produto.builder().
+                id(Integer.parseInt(RandomStringUtils.randomNumeric(4))).
+                nome("Celular").
+                descricao("Moto XX").
+                precoUnitario(8000d).
+                quantidade(Integer.parseInt(RandomStringUtils.randomNumeric(3))).
+                build();
+
+        id =  given().
+                contentType(ContentType.JSON).
+                body(produto).
+                post("/produto").
+                then().log().all().
+                assertThat().
+                statusCode(HttpStatus.SC_OK).
+                extract().path("id");
+
+        Produto produtoAtualizado = Produto.builder().
+                id(id).
+                nome("Celular").
+                descricao("Moto X").
+                precoUnitario(2024d).
+                quantidade(10).
+                build();
+
+        given().
+                contentType(ContentType.JSON).
+                body(produtoAtualizado).
+                when().log().all().
+                put("/produto").
+                then().log().all().
+                assertThat().
+                statusCode(HttpStatus.SC_OK);
     }
 
     @Test
-    public void nao_deveria_atualizar_informacoes_produto_nao_existe() throws JSONException {
-        JSONObject request = new JSONObject();
-        request.put("descricao", "Moto X");
-        request.put("id", Long.MAX_VALUE);
-        request.put("nome", "Celular");
-        request.put("precoUnitario", 2024);
-        request.put("quantidade", 10);
-        given().contentType(ContentType.JSON).body(request.toString()).when().log().all().put("/produto").then().log().all().assertThat().statusCode(HttpStatus.SC_NOT_FOUND);
+    public void naoDeveriaAtualizarInformacoesProdutoNaoExiste() {
+        Produto produto = Produto.builder().
+                id(9999999).
+                nome("Celular").
+                descricao("Moto X").
+                precoUnitario(2024d).
+                quantidade(10).
+                build();
+       given().
+               contentType(ContentType.JSON).
+               body(produto).
+               when().log().all().
+               put("/produto").
+               then().log().all().
+               assertThat().
+               statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
 }

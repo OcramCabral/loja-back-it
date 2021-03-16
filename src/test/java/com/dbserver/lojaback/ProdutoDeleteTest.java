@@ -7,15 +7,15 @@ import org.testng.asserts.SoftAssert;
 
 import static io.restassured.RestAssured.given;
 
-public class ProdutoDeleteTest {
+public class ProdutoDeleteTest extends BaseTest {
 
     @Test
-    public void deveria_excluir_produto_existente(){
+    public void deveriaExcluirProdutoExistente(){
         given().when().delete("/produto/{id}", 21).then().log().all().assertThat().statusCode(HttpStatus.SC_OK);
     }
 
     @Test
-    public void nao_deveria_excluir_produto_nao_existente(){
+    public void naoDeveriaExcluirProdutoNaoExistente(){
         given().when().delete("/produto/{id}", 21).then().log().all().assertThat().statusCode(HttpStatus.SC_NOT_FOUND);
     }
 

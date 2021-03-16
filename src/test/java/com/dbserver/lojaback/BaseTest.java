@@ -1,16 +1,20 @@
 package com.dbserver.lojaback;
 
 
-import io.restassured.RestAssured;
+import com.aventstack.extentreports.testng.listener.ExtentITestListenerAdapter;
 import org.testng.ITestListener;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 
-public class BaseTest{
+import static io.restassured.RestAssured.*;
+
+
+@Listeners({ExtentITestListenerAdapter.class})
+public class BaseTest implements ITestListener {
 
     @BeforeClass
     public void setup(){
-        RestAssured.baseURI = "http://localhost:8080/";
-        RestAssured.basePath = "";
+        baseURI = "http://localhost:8080/";
+        basePath = "";
     }
 }
