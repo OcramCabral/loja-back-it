@@ -1,8 +1,10 @@
 package com.dbserver.lojaback;
 
 import com.dbserver.lojaback.factory.ProdutoFactory;
+import com.dbserver.lojaback.factory.ProdutoFactoryV2;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -13,10 +15,12 @@ import static io.restassured.RestAssured.given;
 public class ProdutoPostTest extends BaseTest {
 
     private ProdutoFactory produto;
+    private ProdutoFactoryV2 prod;
 
     @BeforeClass
     public void setup(){
        produto  = new ProdutoFactory();
+       prod = new ProdutoFactoryV2();
     }
 
 
@@ -25,7 +29,7 @@ public class ProdutoPostTest extends BaseTest {
 
          given().
                 contentType(ContentType.JSON).
-                body(produto.completo_todas_informacoes()).
+                body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), "Moto G", "Celular", 8000d, 15)).
                 post("/produto").
                 then().log().all().
                 assertThat().
@@ -37,7 +41,7 @@ public class ProdutoPostTest extends BaseTest {
 
         Response resp = given().
                 contentType(ContentType.JSON).
-                body(produto.sem_descricao()).
+                body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), "Moto G", 8000d, 15)).
                 post("/produto").
                 then().log().all().
                 assertThat().
@@ -54,7 +58,7 @@ public class ProdutoPostTest extends BaseTest {
     public void naoDeveriaCadastrarUmNovoProdutoNomeVazio() {
         given().
                 contentType(ContentType.JSON).
-                body(produto.nome_vazio()).
+                body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), " ", 8000d, 15)).
                 post("/produto").
                 then().log().all().
                 assertThat().
@@ -66,7 +70,7 @@ public class ProdutoPostTest extends BaseTest {
 
         Response resp =  given().
                 contentType(ContentType.JSON).
-                body(produto.descricao_menor_que_limite_inferior()).
+                body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), "Moto G", RandomStringUtils.randomAlphabetic(4), 8000d, 15)).
                 post("/produto").
                 then().log().all().
                 assertThat().
@@ -82,7 +86,7 @@ public class ProdutoPostTest extends BaseTest {
 
         given().
                 contentType(ContentType.JSON).
-                body(produto.descricao_com_limite_inferior()).
+                body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), "Moto G", RandomStringUtils.randomAlphabetic(5),8000d, 15)).
                 post("/produto").
                 then().log().all().
                 assertThat().
@@ -93,7 +97,7 @@ public class ProdutoPostTest extends BaseTest {
     public void naoDeveriaCadastrarUmNovoProdutoDescricaoIgualCinquenta(){
         given().
                 contentType(ContentType.JSON).
-                body(produto.descricao_com_limite_superior()).
+                body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), "Moto G", RandomStringUtils.randomAlphabetic(50), 8000d, 15)).
                 post("/produto").
                 then().log().all().
                 assertThat().
@@ -104,7 +108,7 @@ public class ProdutoPostTest extends BaseTest {
     public void naoDeveriaCadastrarUmNovoProdutoDescricaoMaiorCinquenta(){
         Response resp =  given().
                 contentType(ContentType.JSON).
-                body(produto.descricao_maior_limite_superior()).
+                body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), "Moto G", RandomStringUtils.randomAlphabetic(51), 8000d, 15)).
                 post("/produto").
                 then().log().all().
                 assertThat().
@@ -120,7 +124,7 @@ public class ProdutoPostTest extends BaseTest {
 
         given().
                 contentType(ContentType.JSON).
-                body(produto.quantidade_menor_limite_inferior()).
+                body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), "Moto G", 8000d, -1)).
                 post("/produto").
                 then().log().all().
                 assertThat().
@@ -133,7 +137,7 @@ public class ProdutoPostTest extends BaseTest {
     public void deveriaCadastrarUmNovoProdutoQuantidadeIgualUm()  {
         given().
                 contentType(ContentType.JSON).
-                body(produto.quantidade_igual_limite_inferior()).
+                body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), "Moto G", 8000d, 1)).
                 post("/produto").
                 then().log().all().
                 assertThat().
@@ -144,7 +148,7 @@ public class ProdutoPostTest extends BaseTest {
     public void deveriaCadastrarUmNovoProdutoQuantidadeIgualMaiorInteger() {
         given().
                 contentType(ContentType.JSON).
-                body(produto.quantidade_igual_limite_superior()).
+                body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), "Moto G", 8000d, Integer.MAX_VALUE)).
                 post("/produto").
                 then().log().all().
                 assertThat().
@@ -157,7 +161,7 @@ public class ProdutoPostTest extends BaseTest {
         Response resp =
                 given().
                         contentType(ContentType.JSON).
-                        body(produto.preco_menor_limite_inferior()).
+                        body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), "Moto G", -1d, 15)).
                         post("/produto").
                         then().log().all().
                         assertThat().
@@ -175,7 +179,7 @@ public class ProdutoPostTest extends BaseTest {
         Response resp =
                 given().
                         contentType(ContentType.JSON).
-                        body(produto.preco_igual_zero()).
+                        body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), "Moto G", 0d, 15)).
                         post("/produto").
                         then().log().all().
                         assertThat().
@@ -192,7 +196,7 @@ public class ProdutoPostTest extends BaseTest {
     public void deveriaCadastrarUmNovoProdutoPrecoUnitarioIgualMaiorInteger() {
         given().
                 contentType(ContentType.JSON).
-                body(produto.preco_igual_limite_superior()).
+                body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), "Moto G", (double) Integer.MAX_VALUE, 15)).
                 post("/produto").
                 then().log().all().
                 assertThat().
