@@ -1,5 +1,6 @@
 package com.dbserver.lojaback;
 
+import com.dbserver.lojaback.factory.ProdutoFactory;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
@@ -11,11 +12,11 @@ import static io.restassured.RestAssured.given;
 
 public class ProdutoPostTest extends BaseTest {
 
-    private BuilderProduto produto;
+    private ProdutoFactory produto;
 
     @BeforeClass
     public void setup(){
-       produto  = new BuilderProduto();
+       produto  = new ProdutoFactory();
     }
 
 

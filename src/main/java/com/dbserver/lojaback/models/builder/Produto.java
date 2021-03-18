@@ -17,5 +17,6 @@ public class Produto {
     private String nome;
     private Double precoUnitario;
     private Integer quantidade;
+
 }
 

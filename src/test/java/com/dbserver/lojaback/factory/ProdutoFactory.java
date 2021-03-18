@@ -1,11 +1,11 @@
-package com.dbserver.lojaback;
+package com.dbserver.lojaback.factory;
 
 import com.dbserver.lojaback.models.builder.Produto;
 import org.apache.commons.lang3.RandomStringUtils;
 
-public class BuilderProduto {
+public class ProdutoFactory {
 
-    public BuilderProduto(){}
+    public ProdutoFactory(){}
 
     public Produto completo_todas_informacoes(){
         Produto produto = Produto.builder().
@@ -155,4 +155,6 @@ public class BuilderProduto {
                 build();
         return produto;
     }
+
+
 }
