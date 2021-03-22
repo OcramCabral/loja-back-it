@@ -1,31 +1,18 @@
 package com.dbserver.lojaback;
 
-import com.dbserver.lojaback.factory.ProdutoFactory;
-import com.dbserver.lojaback.factory.ProdutoFactoryV2;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 
 public class ProdutoPostTest extends BaseTest {
 
-    private ProdutoFactory produto;
-    private ProdutoFactoryV2 prod;
-
-    @BeforeClass
-    public void setup(){
-       produto  = new ProdutoFactory();
-       prod = new ProdutoFactoryV2();
-    }
-
-
     @Test
-    public void deveriaCadastrarUmNovoProduto() {
+    public void deveCadastrarUmNovoProduto() {
 
          given().
                 contentType(ContentType.JSON).
@@ -37,7 +24,7 @@ public class ProdutoPostTest extends BaseTest {
     }
 
     @Test
-    public void naoDeveriaCadastrarUmNovoProdutoSemDescricao() {
+    public void naoDeveCadastrarUmNovoProdutoSemDescricao() {
 
         Response resp = given().
                 contentType(ContentType.JSON).
@@ -54,8 +41,7 @@ public class ProdutoPostTest extends BaseTest {
     }
 
     @Test
-    //Problema Aceita nome " " - Prever no teste!(Moacir)
-    public void naoDeveriaCadastrarUmNovoProdutoNomeVazio() {
+    public void naoDeveCadastrarUmNovoProdutoNomeVazio() {
         given().
                 contentType(ContentType.JSON).
                 body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), " ", 8000d, 15)).
@@ -66,7 +52,7 @@ public class ProdutoPostTest extends BaseTest {
     }
 
     @Test
-    public void naoDeveriaCadastrarUmNovoProdutoDescricaoMenorQueCinco(){
+    public void naoDeveCadastrarUmNovoProdutoDescricaoMenorQueCinco(){
 
         Response resp =  given().
                 contentType(ContentType.JSON).
@@ -82,7 +68,7 @@ public class ProdutoPostTest extends BaseTest {
     }
 
     @Test
-    public void deveriaCadastrarUmNovoProdutoDescricaoIgualCinco(){
+    public void deveCadastrarUmNovoProdutoDescricaoIgualCinco(){
 
         given().
                 contentType(ContentType.JSON).
@@ -94,7 +80,7 @@ public class ProdutoPostTest extends BaseTest {
     }
 
     @Test
-    public void naoDeveriaCadastrarUmNovoProdutoDescricaoIgualCinquenta(){
+    public void naoDeveCadastrarUmNovoProdutoDescricaoIgualCinquenta(){
         given().
                 contentType(ContentType.JSON).
                 body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), "Moto G", RandomStringUtils.randomAlphabetic(50), 8000d, 15)).
@@ -105,7 +91,7 @@ public class ProdutoPostTest extends BaseTest {
     }
 
     @Test
-    public void naoDeveriaCadastrarUmNovoProdutoDescricaoMaiorCinquenta(){
+    public void naoDeveCadastrarUmNovoProdutoDescricaoMaiorCinquenta(){
         Response resp =  given().
                 contentType(ContentType.JSON).
                 body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), "Moto G", RandomStringUtils.randomAlphabetic(51), 8000d, 15)).
@@ -119,8 +105,7 @@ public class ProdutoPostTest extends BaseTest {
     }
 
     @Test
-    //Problema aceita quantidade menor de que 0 - Prever no teste!(Moacir)
-    public void naoDeveriaCadastrarUmNovoProdutoQuantidadeMenorZero() {
+    public void naoDeveCadastrarUmNovoProdutoQuantidadeMenorZero() {
 
         given().
                 contentType(ContentType.JSON).
@@ -129,12 +114,11 @@ public class ProdutoPostTest extends BaseTest {
                 then().log().all().
                 assertThat().
                 statusCode(HttpStatus.SC_BAD_REQUEST).
-                extract().
-                path("id");
+                extract();
     }
 
     @Test
-    public void deveriaCadastrarUmNovoProdutoQuantidadeIgualUm()  {
+    public void deveCadastrarUmNovoProdutoQuantidadeIgualUm()  {
         given().
                 contentType(ContentType.JSON).
                 body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), "Moto G", 8000d, 1)).
@@ -145,7 +129,7 @@ public class ProdutoPostTest extends BaseTest {
 
     }
     @Test
-    public void deveriaCadastrarUmNovoProdutoQuantidadeIgualMaiorInteger() {
+    public void deveCadastrarUmNovoProdutoQuantidadeIgualMaiorInteger() {
         given().
                 contentType(ContentType.JSON).
                 body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), "Moto G", 8000d, Integer.MAX_VALUE)).
@@ -156,7 +140,7 @@ public class ProdutoPostTest extends BaseTest {
     }
 
     @Test
-    public void naoDeveriaCadastrarUmNovoProdutoPrecoUnitarioMenorZero() {
+    public void naoDeveCadastrarUmNovoProdutoPrecoUnitarioMenorZero() {
 
         Response resp =
                 given().
@@ -174,7 +158,7 @@ public class ProdutoPostTest extends BaseTest {
     }
 
     @Test
-    public void naoDeveriaCadastrarUmNovoProdutoPrecoUnitarioIgualZero() {
+    public void naoDeveCadastrarUmNovoProdutoPrecoUnitarioIgualZero() {
 
         Response resp =
                 given().
@@ -193,7 +177,7 @@ public class ProdutoPostTest extends BaseTest {
     }
 
     @Test
-    public void deveriaCadastrarUmNovoProdutoPrecoUnitarioIgualMaiorInteger() {
+    public void deveCadastrarUmNovoProdutoPrecoUnitarioIgualMaiorInteger() {
         given().
                 contentType(ContentType.JSON).
                 body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)), "Moto G", (double) Integer.MAX_VALUE, 15)).

@@ -1,6 +1,5 @@
 package com.dbserver.lojaback;
 
-import com.dbserver.lojaback.models.builder.Produto;
 import io.restassured.http.ContentType;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.http.HttpStatus;
@@ -12,36 +11,20 @@ public class ProdutoPutTest extends BaseTest{
     private Integer id;
 
     @Test
-    public void deveriaAtualizarInformacoes() {
-
-        Produto produto = Produto.builder().
-                id(Integer.parseInt(RandomStringUtils.randomNumeric(4))).
-                nome("Celular").
-                descricao("Moto XX").
-                precoUnitario(8000d).
-                quantidade(Integer.parseInt(RandomStringUtils.randomNumeric(3))).
-                build();
+    public void deveAtualizarInformacoes() {
 
         id =  given().
                 contentType(ContentType.JSON).
-                body(produto).
+                body(prod.factory(Integer.parseInt(RandomStringUtils.randomNumeric(4)),"Celular","Moto XX",8000d,Integer.parseInt(RandomStringUtils.randomNumeric(3)))).
                 post("/produto").
                 then().log().all().
                 assertThat().
                 statusCode(HttpStatus.SC_OK).
                 extract().path("id");
 
-        Produto produtoAtualizado = Produto.builder().
-                id(id).
-                nome("Celular").
-                descricao("Moto X").
-                precoUnitario(2024d).
-                quantidade(10).
-                build();
-
         given().
                 contentType(ContentType.JSON).
-                body(produtoAtualizado).
+                body(prod.factory(id,"Celular","Moto XX",2024d,10)).
                 when().log().all().
                 put("/produto").
                 then().log().all().
@@ -50,17 +33,11 @@ public class ProdutoPutTest extends BaseTest{
     }
 
     @Test
-    public void naoDeveriaAtualizarInformacoesProdutoNaoExiste() {
-        Produto produto = Produto.builder().
-                id(9999999).
-                nome("Celular").
-                descricao("Moto X").
-                precoUnitario(2024d).
-                quantidade(10).
-                build();
+    public void naoDeveAtualizarInformacoesProdutoNaoExistente() {
+
        given().
                contentType(ContentType.JSON).
-               body(produto).
+               body(prod.factory(9999999,"Celular","Moto X",2024d,10)).
                when().log().all().
                put("/produto").
                then().log().all().

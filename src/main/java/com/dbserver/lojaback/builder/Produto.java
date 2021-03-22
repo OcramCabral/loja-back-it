@@ -1,4 +1,4 @@
-package com.dbserver.lojaback.models.builder;
+package com.dbserver.lojaback.builder;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

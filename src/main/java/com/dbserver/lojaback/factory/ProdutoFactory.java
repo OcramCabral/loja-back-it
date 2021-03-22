@@ -1,11 +1,10 @@
 package com.dbserver.lojaback.factory;
 
-import com.dbserver.lojaback.models.builder.Produto;
-import org.apache.commons.lang3.RandomStringUtils;
+import com.dbserver.lojaback.builder.Produto;
 
-public class ProdutoFactoryV2 {
+public class ProdutoFactory {
 
-    public ProdutoFactoryV2(){}
+    public ProdutoFactory(){}
 
     public Produto factory(Integer id, String nome, String descricao, Double precoUnitario, Integer quantidade){
         Produto produto = Produto.builder().

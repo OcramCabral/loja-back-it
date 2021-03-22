@@ -1,7 +1,7 @@
 package com.dbserver.lojaback;
 
 
-import com.dbserver.lojaback.models.builder.Produto;
+import com.dbserver.lojaback.builder.Produto;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
@@ -31,7 +31,7 @@ public class ProdutoGetTest extends BaseTest {
     }
 
     @Test
-    public void deveriaPesquisarProdutoIdValido(){
+    public void devePesquisarProdutoIdValido(){
         given().
                 basePath(basePath).
                 when().log().all().
@@ -45,7 +45,7 @@ public class ProdutoGetTest extends BaseTest {
     }
 
     @Test
-    public void deveriaPesquisarProdutoIdInvalido(){
+    public void devePesquisarProdutoIdInvalido(){
         Response resp =
                 given().
                         basePath(basePath).

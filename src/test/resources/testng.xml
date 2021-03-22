@@ -1,20 +1,28 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 <suite name="Test-Suite" >
-    <test name="testGet" >
-        <classes>
-            <class name="com.dbserver.lojaback.ProdutoGetTest" />
-        </classes>
-    </test>
-
     <test name="testContrato" >
         <classes>
             <class name="com.dbserver.lojaback.ProdutoContratoTest" />
         </classes>
     </test>
-
+    <test name="testGet" >
+        <classes>
+            <class name="com.dbserver.lojaback.ProdutoGetTest" />
+        </classes>
+    </test>
     <test name="testPost" >
         <classes>
             <class name="com.dbserver.lojaback.ProdutoPostTest" />
+        </classes>
+    </test>
+    <test name="testPut" >
+        <classes>
+            <class name="com.dbserver.lojaback.ProdutoPutTest" />
+        </classes>
+    </test>
+    <test name="testDelete" >
+        <classes>
+            <class name="com.dbserver.lojaback.ProdutoDeleteTest" />
         </classes>
     </test>
 
